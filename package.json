@@ -1,0 +1,36 @@
+{
+  "name": "ipt-2026-backend",
+  "version": "1.0.0",
+  "description": "Express + SQLite/Turso backend for Angular 21 application",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "db:init": "node src/db-init.js"
+  },
+  "keywords": [
+    "express",
+    "sqlite",
+    "turso",
+    "angular",
+    "jwt",
+    "auth"
+  ],
+  "author": "Antigravity",
+  "license": "ISC",
+  "dependencies": {
+    "@libsql/client": "^0.14.0",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "resend": "^6.12.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
