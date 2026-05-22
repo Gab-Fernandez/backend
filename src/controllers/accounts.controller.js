@@ -143,7 +143,8 @@ export async function register(req, res, next) {
     ]);
 
     // Dispatched verification email with active link
-    const verifyUrl = `${req.headers.origin || 'http://localhost:4200'}/account/verify-email?token=${verificationToken}`;
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:4200';
+    const verifyUrl = `${frontendUrl}/account/verify-email?token=${verificationToken}`;
     
     await sendEmail({
       to: params.email,
@@ -305,7 +306,9 @@ export async function forgotPassword(req, res, next) {
     `, [resetToken, resetTokenExpires, updatedDate, account.id]);
 
     // Dispatched password reset email with active link
-    const resetUrl = `${req.headers.origin || 'http://localhost:4200'}/account/reset-password?token=${resetToken}`;
+    // FIXED
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:4200';
+    const resetUrl = `${frontendUrl}/account/reset-password?token=${resetToken}`;
     
     await sendEmail({
       to: email,
