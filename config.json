@@ -1,0 +1,19 @@
+{
+  "database": {
+    "host": "kodama.proxy.rlwy.net",
+    "port": 38678,
+    "user": "root",
+    "password": "QdrOHelChZaqNQprkGAfjcVcSJtJglKH",
+    "database": "railway"
+  },
+  "secret": "SUPER_SECRET_KEY_REPLACE_ME_IN_PRODUCTION",
+  "emailFrom": "info@my-node-api.com",
+  "smtpOptions": {
+    "host": "smtp.ethereal.email",
+    "port": 587,
+    "auth": {
+      "user": "dianna82@ethereal.email",
+      "pass": "RyafPPn2ebfeKryjAg"
+    }
+  }
+}
