@@ -7,7 +7,6 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "ignoreDeprecations": "6.0",
     "module": "Commonjs",
     "moduleResolution": "node",
     "target": "ES6",
