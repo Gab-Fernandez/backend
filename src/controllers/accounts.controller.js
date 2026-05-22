@@ -341,14 +341,22 @@ export async function validateResetToken(req, res, next) {
 
     const accountQuery = await execute(`
       SELECT * FROM accounts 
-      WHERE resetToken = ? AND resetTokenExpires > ?
-    `, [token, new Date().toISOString()]);
+      WHERE resetToken = ?
+    `, [token]);
 
     if (accountQuery.rows.length === 0) {
       throw 'Invalid token';
     }
 
+    const account = accountQuery.rows[0];
+
+    // Check expiration manually in JavaScript
+    if (new Date(account.resetTokenExpires) < new Date()) {
+      throw 'Token expired';
+    }
+
     res.json({ message: 'Token is valid' });
+
   } catch (err) {
     next(err);
   }
@@ -358,21 +366,25 @@ export async function resetPassword(req, res, next) {
   try {
     const { token, password } = req.body;
 
-    // Verify token validity
     const accountQuery = await execute(`
       SELECT * FROM accounts 
-      WHERE resetToken = ? AND resetTokenExpires > ?
-    `, [token, new Date().toISOString()]);
+      WHERE resetToken = ?
+    `, [token]);
 
     if (accountQuery.rows.length === 0) {
       throw 'Invalid token';
     }
 
     const account = accountQuery.rows[0];
+
+    // Check expiration manually
+    if (new Date(account.resetTokenExpires) < new Date()) {
+      throw 'Token expired';
+    }
+
     const passwordHash = bcrypt.hashSync(password, 10);
     const updatedDate = new Date().toISOString();
 
-    // Save new password and remove token fields
     await execute(`
       UPDATE accounts 
       SET passwordHash = ?, resetToken = NULL, resetTokenExpires = NULL, passwordResetDate = ?, updated = ?
@@ -380,6 +392,7 @@ export async function resetPassword(req, res, next) {
     `, [passwordHash, updatedDate, updatedDate, account.id]);
 
     res.json({ message: 'Password reset successful, you can now login' });
+
   } catch (err) {
     next(err);
   }
