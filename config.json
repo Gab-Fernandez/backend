@@ -6,14 +6,7 @@
     "password": "QdrOHelChZaqNQprkGAfjcVcSJtJglKH",
     "database": "railway"
   },
-  "secret": "SUPER_SECRET_KEY_REPLACE_ME_IN_PRODUCTION",
-  "emailFrom": "info@my-node-api.com",
-  "smtpOptions": {
-    "host": "smtp.ethereal.email",
-    "port": 587,
-    "auth": {
-      "user": "dianna82@ethereal.email",
-      "pass": "RyafPPn2ebfeKryjAg"
-    }
-  }
+  "secret": "041efce1dc6333b4acca120b0f21eb924517f209423ba0beb4e6b41d90203d75127b9db12825659842f559286cf7c1e2c7bff9504d122f161723edb9bd4c5690",
+  "emailFrom": "onboarding@resend.dev",
+"resendApiKey": "re_3YeLcrmU_FHR7Ze2GBwpRnJ8tmu4aDzE1"
 }
