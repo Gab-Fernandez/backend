@@ -1,0 +1,343 @@
+openapi: 3.0.0
+info:
+  title: Node.js Sign-up and Verification API
+  version: 1.0.0
+servers:
+  - url: https://ipt-2026-backend-5ihl.onrender.com
+paths:
+  /accounts/authenticate:
+    post:
+      summary: Authenticate account credentials and return a JWT token
+      tags: [Accounts]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  example: jason@example.com
+                password:
+                  type: string
+                  example: pass123
+      responses:
+        "200":
+          description: Account details, a JWT access token and a refresh token cookie
+        "400":
+          description: Email or password is incorrect
+
+  /accounts/refresh-token:
+    post:
+      summary: Use a refresh token to generate a new JWT token
+      tags: [Accounts]
+      parameters:
+        - in: cookie
+          name: refreshToken
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Account details, a new JWT access token and a new refresh token cookie
+        "400":
+          description: Invalid token
+
+  /accounts/revoke-token:
+    post:
+      summary: Revoke a refresh token
+      tags: [Accounts]
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+      responses:
+        "200":
+          description: Token revoked successfully
+        "400":
+          description: Token is required
+        "401":
+          description: Unauthorized
+
+  /accounts/register:
+    post:
+      summary: Register a new user account
+      tags: [Accounts]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                [
+                  title,
+                  firstName,
+                  lastName,
+                  email,
+                  password,
+                  confirmPassword,
+                  acceptTerms,
+                ]
+              properties:
+                title:
+                  type: string
+                  example: Mr
+                firstName:
+                  type: string
+                  example: Jason
+                lastName:
+                  type: string
+                  example: Watmore
+                email:
+                  type: string
+                  example: jason@example.com
+                password:
+                  type: string
+                  example: pass123
+                confirmPassword:
+                  type: string
+                  example: pass123
+                acceptTerms:
+                  type: boolean
+                  example: true
+      responses:
+        "200":
+          description: Registration successful, check email for verification instructions
+        "400":
+          description: Email already registered
+
+  /accounts/verify-email:
+    post:
+      summary: Verify a new account with a verification token
+      tags: [Accounts]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token]
+              properties:
+                token:
+                  type: string
+      responses:
+        "200":
+          description: Verification successful
+        "400":
+          description: Verification failed
+
+  /accounts/forgot-password:
+    post:
+      summary: Submit email address to reset the password on your account
+      tags: [Accounts]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  example: jason@example.com
+      responses:
+        "200":
+          description: Password reset email sent
+
+  /accounts/validate-reset-token:
+    post:
+      summary: Validate the reset password token received in email
+      tags: [Accounts]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token]
+              properties:
+                token:
+                  type: string
+      responses:
+        "200":
+          description: Token is valid
+        "400":
+          description: Invalid token
+
+  /accounts/reset-password:
+    post:
+      summary: Reset the password for an account
+      tags: [Accounts]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, password, confirmPassword]
+              properties:
+                token:
+                  type: string
+                password:
+                  type: string
+                  example: newPass123
+                confirmPassword:
+                  type: string
+                  example: newPass123
+      responses:
+        "200":
+          description: Password reset successful
+        "400":
+          description: Invalid token
+
+  /accounts:
+    get:
+      summary: Get all accounts (Admin only)
+      tags: [Accounts]
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of all accounts
+        "401":
+          description: Unauthorized
+    post:
+      summary: Create a new account (Admin only)
+      tags: [Accounts]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                [
+                  title,
+                  firstName,
+                  lastName,
+                  email,
+                  password,
+                  confirmPassword,
+                  role,
+                ]
+              properties:
+                title:
+                  type: string
+                  example: Mr
+                firstName:
+                  type: string
+                  example: Jason
+                lastName:
+                  type: string
+                  example: Watmore
+                email:
+                  type: string
+                  example: jason@example.com
+                password:
+                  type: string
+                  example: pass123
+                confirmPassword:
+                  type: string
+                  example: pass123
+                role:
+                  type: string
+                  enum: [Admin, User]
+                  example: User
+      responses:
+        "200":
+          description: Account created successfully
+        "400":
+          description: Email already registered
+        "401":
+          description: Unauthorized
+
+  /accounts/{id}:
+    get:
+      summary: Get a single account by ID
+      tags: [Accounts]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Account details
+        "401":
+          description: Unauthorized
+        "404":
+          description: Account not found
+    put:
+      summary: Update an account
+      tags: [Accounts]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                confirmPassword:
+                  type: string
+                role:
+                  type: string
+                  enum: [Admin, User]
+      responses:
+        "200":
+          description: Account updated successfully
+        "401":
+          description: Unauthorized
+    delete:
+      summary: Delete an account
+      tags: [Accounts]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Account deleted successfully
+        "401":
+          description: Unauthorized
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,38 +1,45 @@
 {
-  "name": "ipt-2026-backend",
+  "name": "mysql-api",
   "version": "1.0.0",
-  "description": "Express + SQLite/Turso backend for Angular 21 application",
-  "main": "src/server.js",
-  "type": "module",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
-    "db:init": "node src/db-init.js"
+    "start": "ts-node ./server.ts",
+    "start:dev": "nodemon --exec ts-node ./server.ts",
+    "build": "tsc"
   },
-  "keywords": [
-    "express",
-    "sqlite",
-    "turso",
-    "angular",
-    "jwt",
-    "auth"
-  ],
-  "author": "Antigravity",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
+  "type": "commonjs",
   "dependencies": {
-    "@libsql/client": "^0.14.0",
-    "bcryptjs": "^2.4.3",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
+    "bcryptjs": "^3.0.3",
+    "body-parser": "^2.2.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "express-jwt": "^8.5.1",
+    "joi": "^18.1.2",
     "jsonwebtoken": "^9.0.3",
-    "morgan": "^1.10.0",
+    "mysql2": "^3.22.1",
+    "nodemailer": "^8.0.5",
     "resend": "^6.12.3",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "sequelize": "^6.37.8",
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^25.6.0",
+    "@types/nodemailer": "^8.0.0",
+    "@types/swagger-ui-express": "^4.1.8",
+    "@types/yamljs": "^0.2.34",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
   }
 }
